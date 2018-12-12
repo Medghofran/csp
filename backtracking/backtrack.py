@@ -30,21 +30,18 @@ def backtrack_search(csp, assignment):
 # select the first variable from the list that does not yet been assigned.
 def select_unassigned_variable(csp, assignment):
     unassigned_variables = [x for x in csp.variables if x not in assignment]
-    print("variable is : " + str(unassigned_variables[0]))
     return unassigned_variables[0]
 
 
 # omits the order domains values and returns the domains as is
 def get_unordered_domain(varx, assignment, csp):
-    return [v for v in csp.domains if v != varx]
+    return [v for v in csp.domains if v != varx and v not in assignment]
 
 
 # validate the consistency of the value according to the assignments and the constraints
 # contained within the csp instance
 def consistent(value, assignment, csp):
     for old_value in assignment:
-        print("Old value :" + str(old_value))
-        print("new value :" + str(value))
         for constraint in csp.constraints:
             evaluative = constraint.format(value, old_value)
             print("evaluating constraint : " + evaluative)
@@ -75,7 +72,7 @@ def log_state(assignments):
         print ' '
 
 
-csp = load_csp("../input/csp.txt")
+csp = load_csp("../input/queens_8.txt")
 
 
 ass = []

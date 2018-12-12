@@ -1,0 +1,14 @@
+{
+    "variables" : ["0..8"],
+    "mat_size" : {
+        "rows": 4,
+        "columns": 4
+    },
+    "domains" : ["0..64"],
+    "constraints": [
+        "line($q, 8) != line($r, 8)",
+        "column($q, 8) != column($r, 8)",
+        "line($q, 8) - line($r, 8) != column($q, 8) - column($r, 8)",
+        "line($q, 8) - line($r, 8) != column($r, 8) - column($q, 8)"
+    ]
+}

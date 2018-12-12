@@ -1,6 +1,5 @@
 import Tkinter as tk
 from Tkinter import *
-
 from threading import Thread
 
 
@@ -15,38 +14,43 @@ class Board:
         self.boardWindow.resizable(0, 0)
         self.cells = [[0 for x in range(columns)] for y in range(rows)]
 
-        gridHeight = int(height / (rows * 15))
-        gridWidth = int(width / (columns * 8))
+        grid_height = 4
+        grid_width = 10
 
-        label2 = Label(self.boardWindow, bg="#E1E5EC", text="Backtracking Search")
-        label2.grid()
+        odd_color = "#2F353B"    # type: str
+        even_color = "#FFFFFF"  # type: str
 
-        oddColor = "#2F353B"
-        evenColor = "#FFFFFF"
+        grid_color = "#FFFFFF"   # type: str
 
-        gridColor = "#FFFFFF"
-
-        for row in range(rows - 1):
-            for col in range(columns - 1):
+        for row in range(rows):
+            init_color = grid_color
+            for col in range(columns):
                 v = StringVar()
-                label = Label(self.boardWindow, height=gridHeight, width=gridWidth, bg=gridColor, textvariable=v)
+                label = Label(self.boardWindow, height=grid_height, width=grid_width, bg=grid_color, textvariable=v,
+                              font=("Helvetica", 12, "bold italic"), fg="red")
                 self.cells[row][col] = v
                 label.grid(row=row, column=col)
-                if (gridColor == evenColor):
-                    gridColor = oddColor
+                if grid_color == even_color:
+                    grid_color = odd_color
                 else:
-                    gridColor = evenColor
+                    grid_color = even_color
+
+            if init_color == even_color:
+                init_color = odd_color
+            else:
+                init_color = even_color
+            grid_color = init_color
 
     def render(self):
         t = Thread(target=self.handle_rend, args=())
         t.start()
 
     def handle_rend(self):
-        while (self.shouldQuit != True):
+        while not self.shouldQuit:
             self.boardWindow.update_idletasks()
             self.boardWindow.update()
 
-    def prettyPrint(self, positions):
+    def pretty_print(self, positions):
         for cell in positions:
             self.cells[cell.row][cell.col].set("test")
 
@@ -61,10 +65,9 @@ class Cell:
         self.value = value
 
 
-board = Board("CSP Backtrack", 800, 600, 4, 4)
+board = Board("CSP Backtrack", 1366, 780, 8, 8)
 cell = Cell(1, 1, "Q1")
 board.render()
 positions = [cell]
-board.prettyPrint(positions)
-time.sleep(4)
-board.close()
+board.pretty_print(positions)
+#board.close()
